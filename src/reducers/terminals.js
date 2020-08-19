@@ -6,6 +6,7 @@ export const initialState = {
 }
 
 const terminal = (state = initialState, action) => {
+   console.log(...state.items);
    switch (action.type) {
       case SET_TERMINAL_DESCRIPTION:
          return {
@@ -23,7 +24,8 @@ const terminal = (state = initialState, action) => {
          return {
             ...state,
             items: [
-               ...state.items
+               ...state.items.slice(0, action.payload),
+               ...state.items.slice(action.payload + 1)
             ]
          }
       default:

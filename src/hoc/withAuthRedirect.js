@@ -5,7 +5,7 @@ export const withAuthRedirect = (Component) => {
     const [state , dispath] = useReducer()
 
     const RedirectComponent = () => {
-        if(!this.props.isAuth) return < Redirect to="/login" />
+        if(!isAuth) return < Redirect to="/login" />
 
         return (
            <Component {...this.props} />

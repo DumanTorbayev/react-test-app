@@ -17,7 +17,7 @@ const auth = (state = initialState, action) => {
       case SET_AUTH:
          return {
             ...state,
-            isAuth: true
+            isAuth: action.payload
          };
       case SET_LOGIN:
          return {

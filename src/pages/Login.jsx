@@ -10,7 +10,8 @@ const pattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
 
 const Login = ({handleSignIn, userLogin, message}) => {
    const [state, dispatch] = useReducer(auth, initialState);
-   const {login, password, passCheck} = state;
+   const {login, password, passCheck, isAuth} = state;
+   console.log(isAuth);
 
    const handleLoginChanges = (e) => {
       dispatch(setLoginValue(e.target.value))
@@ -29,7 +30,9 @@ const Login = ({handleSignIn, userLogin, message}) => {
       handleSignIn(login);
    }
 
-   if (userLogin && !passCheck) return < Redirect to="/terminals"/>
+   if (userLogin && !passCheck) {
+      return < Redirect to="/terminals"/>
+   }
 
    return (
       <div className="login-container row align-items-center mx-0">
