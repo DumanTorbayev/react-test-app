@@ -1,0 +1,17 @@
+body, #root, .login-container {
+  min-height: 100vh;
+}
+
+.user {
+  &-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+
+  &-name {
+    margin-bottom: 0;
+    margin-left: 10px;
+    font-weight: 500;
+  }
+}

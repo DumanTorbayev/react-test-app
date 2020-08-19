@@ -1,26 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Route} from "react-router-dom";
+import {Login, Home} from "./pages";
 
 const App = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [data, setData] = useState('');
+    const {login, message} = data;
+
+    const handleSignIn = (value) => {
+        fetch(`https://api.github.com/users/${value}`)
+            .then((response) => response.json())
+            .then(data => setData(data))
+            .catch(error => console.error(error))
+    }
+
+    return (
+        <div className="container">
+            <Route exact path='/'
+                   render={() =>
+                       <Login login={login} message={message} handleSignIn={handleSignIn}/>}
+            />
+            <Route path='/home' render={() => <Home/>}/>
+        </div>
+    );
 }
 
 export default App;
