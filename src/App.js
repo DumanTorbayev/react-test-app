@@ -1,4 +1,4 @@
-import React, {useEffect, useReducer} from 'react';
+import React, {useReducer} from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Route} from "react-router-dom";
 import {Login, Terminals, Buyers} from "./pages";
@@ -6,10 +6,13 @@ import Sidebar from "./components/Sidebar";
 import Button from "react-bootstrap/Button";
 import user, {initialState} from "./reducers/user";
 import {setUserData} from "./actions/user";
+import { useCookies } from 'react-cookie';
 
 const App = () => {
-   const [state, dispatch] = useReducer(user, initialState);
+   const [state, dispatch] = useReducer(user, initialState)
+   const [cookies, setCookie] = useCookies(['avatar']);
    const {userLogin, message, avatar} = state;
+   console.log(cookies);
 
    const handleSignIn = (value) => {
       fetch(`https://api.github.com/users/${value}`)
@@ -17,6 +20,7 @@ const App = () => {
          .then(data => {
             const {avatar_url, login, message} = data
             dispatch(setUserData({avatar_url, login, message}))
+            setCookie('avatar', avatar_url, {path: '/'})
          })
          .catch(error => console.error(error))
    }

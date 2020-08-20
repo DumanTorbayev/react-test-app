@@ -4,12 +4,17 @@ import './index.scss';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from "react-router-dom";
 import App from "./App";
+import {CookiesProvider} from "react-cookie";
 
 ReactDOM.render(
-   <BrowserRouter>
-      <App />
-   </BrowserRouter>,
-  document.getElementById('root')
+   <React.StrictMode>
+      <BrowserRouter>
+         <CookiesProvider>
+            <App/>
+         </CookiesProvider>
+      </BrowserRouter>
+   </React.StrictMode>,
+   document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
