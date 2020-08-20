@@ -3,7 +3,6 @@ import userNoPhoto from '../assets/images/user_default.png'
 import {NavLink} from "react-router-dom";
 
 const Sidebar = ({avatar}) => {
-   console.log(avatar);
     return (
        <>
           <nav id="sidebar">
