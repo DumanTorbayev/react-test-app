@@ -1,43 +1,21 @@
-export const SET_AUTH = 'SET_AUTH';
-export const SET_LOGIN = 'SET_LOGIN';
-export const SET_PASSWORD = 'SET_PASSWORD';
-export const SET_PASS_CHECK = 'SET_PASS_CHECK';
-export const SET_AVATAR = 'SET_AVATAR';
+export const SET_USER_DATA = 'SET_USER_DATA';
 
 export const initialState = {
-   isAuth: false,
    login: null,
-   password: null,
-   passCheck: false,
-   avatar: null
+   avatar: null,
+   message: null,
+   loggedIn: false
 }
 
 const auth = (state = initialState, action) => {
    switch (action.type) {
-      case SET_AUTH:
+      case SET_USER_DATA:
          return {
             ...state,
-            isAuth: action.payload
-         };
-      case SET_LOGIN:
-         return {
-            ...state,
-            login: action.payload
-         };
-      case SET_PASSWORD:
-         return {
-            ...state,
-            password: action.payload
-         };
-      case SET_PASS_CHECK:
-         return {
-            ...state,
-            passCheck: action.payload
-         };
-      case SET_AVATAR:
-         return {
-            ...state,
-            avatar: action.payload
+            login: action.payload.login,
+            avatar: action.payload.avatar,
+            message: action.payload.message,
+            loggedIn: true
          };
       default:
          return state;

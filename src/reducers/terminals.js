@@ -6,7 +6,6 @@ export const initialState = {
 }
 
 const terminal = (state = initialState, action) => {
-   console.log(...state.items);
    switch (action.type) {
       case SET_TERMINAL_DESCRIPTION:
          return {

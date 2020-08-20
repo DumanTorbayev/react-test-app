@@ -1,36 +1,49 @@
-import React, {useReducer} from 'react';
+import React, {useReducer, useState} from 'react';
 import Form from "react-bootstrap/Form";
 import {Redirect} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import auth, {initialState} from "../reducers/auth";
-import {setLoginValue, setPassCheck, setPassword} from "../actions/auth";
-
+import {setUserData} from "../actions/auth";
 
 const pattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
 
-const Login = ({handleSignIn, userLogin, message}) => {
+const Login = ({setCookies}) => {
    const [state, dispatch] = useReducer(auth, initialState);
-   const {login, password, passCheck, isAuth} = state;
-   console.log(isAuth);
+   const {login, message} = state;
+   const [valueLogin, setValueLogin] = useState('');
+   const [password, setPassword] = useState('');
+   const [passCheck, setPassCheck] = useState(true);
+
+   const handleSignIn = (value) => {
+      fetch(`https://api.github.com/users/${value}`)
+         .then((response) => response.json())
+         .then(data => {
+            const {avatar_url, message, login} = data
+            dispatch(setUserData({avatar_url, message, login}))
+            setCookies('avatar', avatar_url, {path: '/'});
+            console.log(data)
+         })
+         .catch(error => console.error(error))
+   }
 
    const handleLoginChanges = (e) => {
-      dispatch(setLoginValue(e.target.value))
+      setValueLogin(e.target.value);
    }
 
    const handlePasswordChanges = (e) => {
-      dispatch(setPassword(e.target.value))
+      setPassword(e.target.value)
    }
 
    const onLogin = () => {
       if (pattern.test(password)) {
-         dispatch(setPassCheck(false));
+         setPassCheck(true)
+         handleSignIn(valueLogin);
       } else {
-         dispatch(setPassCheck(true));
+         setPassCheck(false);
       }
-      handleSignIn(login);
    }
 
-   if (userLogin && !passCheck) {
+   if (login && passCheck) {
       return < Redirect to="/terminals"/>
    }
 
@@ -63,7 +76,7 @@ const Login = ({handleSignIn, userLogin, message}) => {
                      placeholder="Пароль"
                      onChange={handlePasswordChanges}
                   />
-                  {passCheck
+                  {!passCheck
                      ? <small
                         className="form-text text-danger pl-1">
                         Пароль должен содержать не менее 8 символов, хотя бы 1 прописную латинскую букву и хотя бы одно
