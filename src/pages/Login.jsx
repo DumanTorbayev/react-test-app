@@ -65,7 +65,7 @@ const Login = ({setCookies, cookie}) => {
                      className="form-control"
                      id="login"
                      type="text"
-                     placeholder="Введите пароль"
+                     placeholder="Введите логин"
                      onChange={handleLoginChanges}
                   />
                   {message === "Not Found"
@@ -81,7 +81,7 @@ const Login = ({setCookies, cookie}) => {
                   <input
                      className="form-control"
                      id="password" type="password"
-                     placeholder="Пароль"
+                     placeholder="Введите пароль"
                      onChange={handlePasswordChanges}
                   />
                   {!passCheck

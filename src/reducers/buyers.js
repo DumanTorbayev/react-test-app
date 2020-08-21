@@ -117,14 +117,11 @@ const buyersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 buyers: [
-                    ...state.buyers,
-                    {
-                        id: action.payload.id,
-                        name: action.payload.name,
-                        averageCheck: action.payload.averageCheck,
-                        purchases: action.payload.purchases,
-                        totalRevenues: action.payload.totalRevenues,
-                    }
+                    ...state.buyers.filter(obj => {
+                        console.log(action.payload.toLowerCase())
+                        console.log(obj.name.toLowerCase())
+                        return obj.name.toLowerCase() === action.payload.toLowerCase()
+                    })
                 ]
             }
         default:
