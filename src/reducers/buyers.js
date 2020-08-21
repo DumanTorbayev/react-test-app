@@ -1,4 +1,6 @@
-export const FILTER_BY_NAME = 'FILTER_BY_NAME'
+export const SORT_BY_AVERAGE_CHECK = 'SORT_BY_AVERAGE_CHECK';
+export const SORT_BY_PURCHASES = 'SORT_BY_PURCHASES';
+export const SORT_BY_TOTAL_REVENUES = 'SORT_BY_TOTAL_REVENUES';
 
 export const initialState = {
     pageSize: 5,
@@ -113,14 +115,30 @@ export const initialState = {
 
 const buyersReducer = (state = initialState, action) => {
     switch (action.type) {
-        case FILTER_BY_NAME:
+        case SORT_BY_AVERAGE_CHECK:
             return {
                 ...state,
                 buyers: [
-                    ...state.buyers.filter(obj => {
-                        console.log(action.payload.toLowerCase())
-                        console.log(obj.name.toLowerCase())
-                        return obj.name.toLowerCase() === action.payload.toLowerCase()
+                   ...state.buyers.sort(function(a, b){
+                       return b.averageCheck - a.averageCheck
+                   })
+                ]
+            }
+        case SORT_BY_PURCHASES:
+            return {
+                ...state,
+                buyers: [
+                    ...state.buyers.sort(function(a, b){
+                        return b.purchases - a.purchases
+                    })
+                ]
+            }
+        case SORT_BY_TOTAL_REVENUES:
+            return {
+                ...state,
+                buyers: [
+                    ...state.buyers.sort(function(a, b){
+                        return b.totalRevenues - a.totalRevenues
                     })
                 ]
             }

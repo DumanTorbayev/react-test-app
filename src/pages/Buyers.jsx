@@ -1,61 +1,58 @@
-import React, {useContext, useEffect, useReducer, useState} from 'react';
-import BuyersTable from "../components/BuyersTable";
+import React, {useReducer, useState} from 'react';
+import {BuyersList} from "../components";
 import buyersReducer, {initialState} from "../reducers/buyers";
+import {setSortByAverageCheck, setSortByPurchases, setSortByTotalRevenues} from "../actions/buyers";
+import Button from "react-bootstrap/Button";
+import FormControl from "react-bootstrap/FormControl";
 import Table from "react-bootstrap/Table";
-import {setFilterByName} from "../actions/buyers";
-import useDebounce from "../use-debounce";
 
-const Buyers = ({buyersData, filtersByName}) => {
-    //const [state, dispatch] = useReducer(buyersReducer, initialState);
+const Buyers = () => {
+    const [state, dispatch] = useReducer(buyersReducer, initialState)
     const [nameFilter, setNameFilter] = useState('');
-    const [sort, setSort] = useState(false);
-    const debounceNameFilter = useDebounce(nameFilter, 1000);
-    const buyers = useContext(buyersData)
-    //const {buyers} = state;
+    const {buyers} = state;
 
-    useEffect(() => {
-        if (debounceNameFilter) {
-            filtersByName(nameFilter)
-            //dispatch(setFilterByName(nameFilter));
-        }
-    }, [debounceNameFilter])
-
-     const buyersSortByAverageCheck = buyers.sort((a,b) => {
-         return b.averageCheck - a.averageCheck
-     })
-
-    const handleSort = () => {
-        setSort(!sort)
-        console.log(sort);
-    }
-
-    const buyersFilterByName = (e) => {
-        setNameFilter(e.target.value)
-    }
+    const filteredNames = buyers.filter((obj) => {
+        let flag = false;
+        Object.values(obj).forEach((val) => {
+            if (String(val).toLowerCase().indexOf(nameFilter.toLowerCase()) > -1) {
+                flag = true;
+            }
+        });
+        if (flag) return obj;
+    });
 
     return (
         <>
-            <Table striped bordered hover>
+            <Table striped bordered hover variant="dark" responsive='md' className='mb-0'>
                 <thead>
                 <tr>
                     <th>ID покупателя</th>
                     <th>
                         <div className="mb-2">Имя покупателя</div>
-                        <input onChange={buyersFilterByName} type="text"/>
+                        <FormControl onChange={e => setNameFilter(e.target.value)} size="sm" type="text"/>
                     </th>
                     <th>
                         <div className="mb-2">Средний чек</div>
-                        <button onClick={handleSort} className='btn btn-info'>сортировать</button>
+                        <Button onClick={() => dispatch(setSortByAverageCheck())} variant='info' size='sm'>
+                            сортировать
+                        </Button>
                     </th>
-                    <th>Количество покупок</th>
-                    <th>Общая выручка</th>
+                    <th>
+                        <div className="mb-2">Количество покупок</div>
+                        <Button onClick={() => dispatch(setSortByPurchases())} variant='info' size='sm'>
+                            сортировать
+                        </Button>
+                    </th>
+                    <th>
+                        <div className="mb-2">Общая выручка</div>
+                        <Button onClick={() => dispatch(setSortByTotalRevenues())} variant='info' size='sm'>
+                            сортировать
+                        </Button>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
-                {!sort
-                    ? buyersSortByAverageCheck.map(data => <BuyersTable key={data.id} {...data}/>)
-                    : buyers.map(data => <BuyersTable key={data.id} {...data}/>)
-                }
+                {filteredNames.map(data => <BuyersList key={data.id} {...data}/>)}
                 </tbody>
             </Table>
         </>

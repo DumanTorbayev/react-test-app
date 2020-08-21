@@ -1,17 +1,5 @@
-import {FILTER_BY_NAME} from "../reducers/buyers";
+import {SORT_BY_AVERAGE_CHECK, SORT_BY_PURCHASES, SORT_BY_TOTAL_REVENUES} from "../reducers/buyers";
 
-/*export const setFilterByName = ({id, name, averageCheck, purchases, totalRevenues}) => ({
-    type: FILTER_BY_NAME,
-    payload: {
-        id,
-        name,
-        averageCheck,
-        purchases,
-        totalRevenues
-    }
-})*/
-
-export const setFilterByName = (name) => ({
-    type: FILTER_BY_NAME,
-    payload: name
-})
+export const setSortByAverageCheck = () => ({type: SORT_BY_AVERAGE_CHECK});
+export const setSortByPurchases = () => ({type: SORT_BY_PURCHASES});
+export const setSortByTotalRevenues = () => ({type: SORT_BY_TOTAL_REVENUES});

@@ -1,14 +1,10 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 
-const BuyersTable = ({id, name, averageCheck, purchases, totalRevenues}) => {
+const BuyersList = ({id, name, averageCheck, purchases, totalRevenues}) => {
     return (
         <tr>
-            <td>
-                <Link to={`/buyers/${id}`}>
-                    {id}
-                </Link>
-            </td>
+            <td><Link to={`/buyers/${id}`}>{id}</Link></td>
             <td>{name}</td>
             <td>{averageCheck}</td>
             <td>{purchases}</td>
@@ -17,4 +13,4 @@ const BuyersTable = ({id, name, averageCheck, purchases, totalRevenues}) => {
     );
 };
 
-export default BuyersTable;
+export default BuyersList;
