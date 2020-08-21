@@ -4,7 +4,6 @@ export const initialState = {
    login: null,
    avatar: null,
    message: null,
-   loggedIn: false
 }
 
 const auth = (state = initialState, action) => {
@@ -15,7 +14,6 @@ const auth = (state = initialState, action) => {
             login: action.payload.login,
             avatar: action.payload.avatar,
             message: action.payload.message,
-            loggedIn: true
          };
       default:
          return state;

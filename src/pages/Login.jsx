@@ -7,23 +7,31 @@ import {setUserData} from "../actions/auth";
 
 const pattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$/;
 
-const Login = ({setCookies}) => {
+const Login = ({setCookies, cookie}) => {
    const [state, dispatch] = useReducer(auth, initialState);
-   const {login, message} = state;
+   const {message} = state;
    const [valueLogin, setValueLogin] = useState('');
    const [password, setPassword] = useState('');
    const [passCheck, setPassCheck] = useState(true);
+
+   const handleSetCookie = (avatar, login) => {
+      if(avatar !== undefined && login !== undefined) {
+         setCookies('avatar', avatar, {path: '/'});
+         setCookies('login', login, {path: '/'});
+      }
+   }
 
    const handleSignIn = (value) => {
       fetch(`https://api.github.com/users/${value}`)
          .then((response) => response.json())
          .then(data => {
-            const {avatar_url, message, login} = data
-            dispatch(setUserData({avatar_url, message, login}))
-            setCookies('avatar', avatar_url, {path: '/'});
-            console.log(data)
+            const {avatar_url, message, login} = data;
+            dispatch(setUserData({avatar_url, message, login}));
+            handleSetCookie(avatar_url, login);
          })
-         .catch(error => console.error(error))
+         .catch(error => {
+            console.error(error);
+         })
    }
 
    const handleLoginChanges = (e) => {
@@ -43,7 +51,7 @@ const Login = ({setCookies}) => {
       }
    }
 
-   if (login && passCheck) {
+   if ('login' in cookie && passCheck) {
       return < Redirect to="/terminals"/>
    }
 
