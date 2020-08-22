@@ -9,7 +9,7 @@ import {CookiesProvider} from "react-cookie";
 
 ReactDOM.render(
    <React.StrictMode>
-      <BrowserRouter>
+      <BrowserRouter basename='/react-test-app'>
          <CookiesProvider>
             <App/>
          </CookiesProvider>
