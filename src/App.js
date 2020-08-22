@@ -17,8 +17,8 @@ const App = () => {
 
    const handleSetCookie = (avatar, login) => {
       if(avatar !== undefined && login !== undefined) {
-         setCookies('avatar', avatar, {path: '/', maxAge: 86400});
-         setCookies('login', login, {path: '/', maxAge: 86400});
+         setCookies('avatar', avatar, {path: '/react-test-app', maxAge: 86400});
+         setCookies('login', login, {path: '/react-test-app', maxAge: 86400});
       }
    }
 
