@@ -10,14 +10,14 @@ import Button from "react-bootstrap/Button";
 const buyerData = createContext(initialState.buyers);
 
 const App = () => {
-   const [cookie, setCookies] = useCookies(undefined);
+   const [cookie, setCookies, removeCookie] = useCookies(undefined);
    const [message, setMessage] = useState('');
    const [toggleSidebar, setToggleSidebar] = useState(false);
 
    const handleSetCookie = (avatar, login) => {
       if(avatar !== undefined && login !== undefined) {
-         setCookies('avatar', avatar, {path: '/'});
-         setCookies('login', login, {path: '/'});
+         setCookies('avatar', avatar, {path: '/', maxAge: 86400});
+         setCookies('login', login, {path: '/', maxAge: 86400});
       }
    }
 
@@ -38,13 +38,24 @@ const App = () => {
       setToggleSidebar(!toggleSidebar);
    }
 
+   const onLogOut = () => {
+      removeCookie('avatar');
+      removeCookie('login');
+   }
+
    return (
       <div className="wrapper d-flex align-items-stretch">
          <Sidebar cookie={cookie} toggleSidebar={toggleSidebar}/>
          <div id="content" className="p-3 px-md-4">
-            <Button  variant='primary' className='mb-4' onClick={handleToggleSidebar}>
-               <img src={burgerIcon} alt=""/>
-            </Button>
+            <div className='d-flex align-items-center justify-content-between'>
+               <Button  variant='primary' className='mb-4' onClick={handleToggleSidebar}>
+                  <img src={burgerIcon} alt=""/>
+               </Button>
+               { 'avatar' in cookie && 'login' in cookie
+                   ? <Button  variant='primary' className='mb-4' onClick={onLogOut}>Выход</Button>
+                   : null
+               }
+            </div>
             <Switch>
                <Route exact path='/'>
                   <Login cookie={cookie} handleSignIn={handleSignIn} message={message}/>
