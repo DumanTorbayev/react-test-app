@@ -1,60 +1,58 @@
-import React, {useReducer, useState} from 'react';
-import {BuyersList} from "../components";
+import React, {useReducer} from 'react';
+import {BuyersTable} from "../components";
 import buyersReducer, {initialState} from "../reducers/buyers";
-import {setSortByAverageCheck, setSortByPurchases, setSortByTotalRevenues} from "../actions/buyers";
-import Button from "react-bootstrap/Button";
-import FormControl from "react-bootstrap/FormControl";
-import Table from "react-bootstrap/Table";
+import {setCurrentPage, setPageSize, setSort} from "../actions/buyers";
+import Dropdown from "react-bootstrap/Dropdown";
+import Pagination from "react-js-pagination";
+
+const pageSizes = [5, 10, 15];
 
 const Buyers = () => {
     const [state, dispatch] = useReducer(buyersReducer, initialState)
-    const [nameFilter, setNameFilter] = useState('');
-    const {buyers} = state;
+    const {buyers, pageSize, currentPage} = state;
 
-    const filteredNames = buyers.filter((obj) => {
-        let flag = false;
-        Object.values(obj).forEach((val) => {
-            if (String(val).toLowerCase().indexOf(nameFilter.toLowerCase()) > -1) {
-                flag = true;
-            }
-        });
-        if (flag) return obj;
-    });
+    const onSelectItem = (value) => {
+        dispatch(setPageSize(value));
+        dispatch(setCurrentPage(1))
+    }
+
+    const handlePaginationClick = (pageNumber) => {
+        dispatch(setCurrentPage(pageNumber))
+    }
+
+    const onSortDesc = (value) => {
+        dispatch(setSort({value, boolean: false}));
+    }
+
+    const onSortAsc = (value) => {
+        dispatch(setSort({value, boolean: true}));
+    }
 
     return (
         <>
-            <Table striped bordered hover variant="dark" responsive='md' className='mb-0'>
-                <thead>
-                <tr>
-                    <th>ID покупателя</th>
-                    <th>
-                        <div className="mb-2">Имя покупателя</div>
-                        <FormControl onChange={e => setNameFilter(e.target.value)} size="sm" type="text"/>
-                    </th>
-                    <th>
-                        <div className="mb-2">Средний чек</div>
-                        <Button onClick={() => dispatch(setSortByAverageCheck())} variant='info' size='sm'>
-                            сортировать
-                        </Button>
-                    </th>
-                    <th>
-                        <div className="mb-2">Количество покупок</div>
-                        <Button onClick={() => dispatch(setSortByPurchases())} variant='info' size='sm'>
-                            сортировать
-                        </Button>
-                    </th>
-                    <th>
-                        <div className="mb-2">Общая выручка</div>
-                        <Button onClick={() => dispatch(setSortByTotalRevenues())} variant='info' size='sm'>
-                            сортировать
-                        </Button>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                {filteredNames.map(data => <BuyersList key={data.id} {...data}/>)}
-                </tbody>
-            </Table>
+            <div className='d-flex align-items-center justify-content-end mb-4'>
+                <span className='mr-3'>Показать:</span>
+                <Dropdown>
+                    <Dropdown.Toggle variant="outline-dark" id="dropdown-basic">{pageSize}</Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {pageSizes.map((item, index) =>
+                            <Dropdown.Item key={`${item}_${index}`} onClick={() => onSelectItem(item)}>
+                                {item}
+                            </Dropdown.Item>
+                        )}
+                    </Dropdown.Menu>
+                </Dropdown>
+            </div>
+            <BuyersTable {...state} onSortDesc={onSortDesc} onSortAsc={onSortAsc} />
+            {pageSize <= 10
+                ? <Pagination
+                    activePage={currentPage}
+                    itemsCountPerPage={pageSize}
+                    totalItemsCount={buyers.length}
+                    onChange={handlePaginationClick}
+                />
+                : null
+            }
         </>
     );
 };

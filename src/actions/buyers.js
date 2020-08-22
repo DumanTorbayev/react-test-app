@@ -1,5 +1,5 @@
-import {SORT_BY_AVERAGE_CHECK, SORT_BY_PURCHASES, SORT_BY_TOTAL_REVENUES} from "../reducers/buyers";
+import {SET_CURRENT_PAGE, SET_PAGE_SIZE, SET_SORT} from "../reducers/buyers";
 
-export const setSortByAverageCheck = () => ({type: SORT_BY_AVERAGE_CHECK});
-export const setSortByPurchases = () => ({type: SORT_BY_PURCHASES});
-export const setSortByTotalRevenues = () => ({type: SORT_BY_TOTAL_REVENUES});
+export const setSort = ({value, boolean}) => ({type: SET_SORT, payload: {value, boolean}});
+export const setPageSize = pageSize => ({type: SET_PAGE_SIZE, payload: pageSize});
+export const setCurrentPage = currentPage => ({type: SET_CURRENT_PAGE, payload: currentPage});

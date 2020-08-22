@@ -37,7 +37,8 @@ const Login = ({cookie, handleSignIn, message}) => {
                 <Form>
                     <Form.Group>
                         <Form.Label htmlFor="login">Логин</Form.Label>
-                        <Form.Control id="login" type="text" placeholder="Введите логин" onChange={handleLoginChanges}/>
+                        <Form.Control id="login" type="text" placeholder="Введите логин от GitHub"
+                                      onChange={handleLoginChanges}/>
                         {
                             message === "Not Found"
                                 ? <Form.Text className=" text-danger pl-1">Такого логина нет</Form.Text> : null
@@ -50,8 +51,8 @@ const Login = ({cookie, handleSignIn, message}) => {
                         />
                         {!passCheck
                             ? <Form.Text className="text-danger pl-1">
-                                Пароль должен содержать не менее 8 символов, хотя бы 1 прописную латинскую букву и хотя
-                                бы одно число
+                                Пароль должен содержать только латинские буквы, не менее 8 символов, хотя бы 1 прописную
+                                букву и хотя бы одно число
                             </Form.Text>
                             : null
                         }

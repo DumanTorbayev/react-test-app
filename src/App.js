@@ -6,6 +6,7 @@ import {useCookies} from 'react-cookie';
 import {initialState} from "./reducers/buyers";
 import burgerIcon from './assets/images/open-menu.svg';
 import Button from "react-bootstrap/Button";
+import {onFetch} from "./api/api";
 
 const buyerData = createContext(initialState.buyers);
 
@@ -22,7 +23,7 @@ const App = () => {
    }
 
    const handleSignIn = (value) => {
-      fetch(`https://api.github.com/users/${value}`)
+      onFetch(value)
           .then((response) => response.json())
           .then(data => {
              const {avatar_url, message, login} = data;

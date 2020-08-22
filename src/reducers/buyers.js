@@ -1,9 +1,11 @@
-export const SORT_BY_AVERAGE_CHECK = 'SORT_BY_AVERAGE_CHECK';
-export const SORT_BY_PURCHASES = 'SORT_BY_PURCHASES';
-export const SORT_BY_TOTAL_REVENUES = 'SORT_BY_TOTAL_REVENUES';
+export const SET_SORT = 'SET_SORT';
+export const SET_PAGE_SIZE = 'SET_PAGE_SIZE';
+export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 
 export const initialState = {
     pageSize: 5,
+    currentPage: 1,
+    paginateCount: {pageCountForPaginate: 5},
     buyers: [
         {
             id: 1,
@@ -115,32 +117,27 @@ export const initialState = {
 
 const buyersReducer = (state = initialState, action) => {
     switch (action.type) {
-        case SORT_BY_AVERAGE_CHECK:
+        case SET_SORT:
             return {
                 ...state,
                 buyers: [
-                   ...state.buyers.sort(function(a, b){
-                       return b.averageCheck - a.averageCheck
-                   })
-                ]
-            }
-        case SORT_BY_PURCHASES:
-            return {
-                ...state,
-                buyers: [
-                    ...state.buyers.sort(function(a, b){
-                        return b.purchases - a.purchases
+                    ...state.buyers.sort((a, b) => {
+                        if (action.payload.boolean) {
+                            return b[action.payload.value] - a[action.payload.value]
+                        }
+                        return a[action.payload.value] - b[action.payload.value]
                     })
                 ]
             }
-        case SORT_BY_TOTAL_REVENUES:
+        case SET_PAGE_SIZE:
             return {
                 ...state,
-                buyers: [
-                    ...state.buyers.sort(function(a, b){
-                        return b.totalRevenues - a.totalRevenues
-                    })
-                ]
+                pageSize: action.payload
+            }
+        case SET_CURRENT_PAGE:
+            return {
+                ...state,
+                currentPage: action.payload
             }
         default:
             return state;
