@@ -11,14 +11,14 @@ import {onFetch} from "./api/api";
 const buyerData = createContext(initialState.buyers);
 
 const App = () => {
-   const [cookie, setCookies, removeCookie] = useCookies(undefined);
+   const [cookie, setCookie, removeCookie] = useCookies(undefined);
    const [message, setMessage] = useState('');
    const [toggleSidebar, setToggleSidebar] = useState(false);
 
    const handleSetCookie = (avatar, login) => {
       if(avatar !== undefined && login !== undefined) {
-         setCookies('avatar', avatar, {path: '/', maxAge: 86400});
-         setCookies('login', login, {path: '/', maxAge: 86400});
+         setCookie('avatar', avatar, {path: '/', maxAge: 86400});
+         setCookie('login', login, {path: '/', maxAge: 86400});
       }
    }
 
@@ -40,8 +40,8 @@ const App = () => {
    }
 
    const onLogOut = () => {
-      removeCookie('avatar');
-      removeCookie('login');
+      removeCookie('avatar', {path: '/'});
+      removeCookie('login', {path: '/'});
    }
 
    return (
@@ -53,8 +53,7 @@ const App = () => {
                   <img src={burgerIcon} alt=""/>
                </Button>
                { 'avatar' in cookie && 'login' in cookie
-                   ? <Button  variant='primary' className='mb-4' onClick={onLogOut}>Выход</Button>
-                   : null
+                   ? <Button  variant='primary' className='mb-4' onClick={onLogOut}>Выход</Button> : null
                }
             </div>
             <Switch>

@@ -8,14 +8,14 @@ import App from "./App";
 import {CookiesProvider} from "react-cookie";
 
 ReactDOM.render(
-   <React.StrictMode>
-      <BrowserRouter basename='/react-test-app'>
-         <CookiesProvider>
-            <App/>
-         </CookiesProvider>
-      </BrowserRouter>
-   </React.StrictMode>,
-   document.getElementById('root')
+    <React.StrictMode>
+        <BrowserRouter basename='/react-test-app'>
+            <CookiesProvider>
+                <App/>
+            </CookiesProvider>
+        </BrowserRouter>
+    </React.StrictMode>,
+    document.getElementById('root')
 );
 
 // If you want your app to work offline and load faster, you can change
