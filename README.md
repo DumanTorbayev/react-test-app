@@ -1,4 +1,5 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Test task from the company
+## Demo - https://dumantorbayev.github.io/react-test-app/buyers
 
 ## Available Scripts
 
