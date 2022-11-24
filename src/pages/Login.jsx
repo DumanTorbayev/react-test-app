@@ -46,7 +46,7 @@ const Login = ({cookie, handleSignIn, message}) => {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label htmlFor="password">Пароль</Form.Label>
-                        <Form.Control id="password" type="password" placeholder="Введите пароль"
+                        <Form.Control id="password" type="password" placeholder="Введите любой пароль"
                                       onChange={handlePasswordChanges}
                         />
                         {!passCheck
